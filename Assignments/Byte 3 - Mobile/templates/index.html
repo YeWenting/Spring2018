@@ -34,7 +34,7 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="about">About This Data Set</a></li>
-	    <li><a href="quality">Data Quality</a></li>
+      <li><a href="quality">Data Quality</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -44,16 +44,19 @@
       
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
-	<h1>Interactive Data Science Project Exploratory Analysis Byte Example</h1>
-        <p>This is the Exploratory Analysis Byte of the Interactive Data Science class.</p>
-      </div>
+  <h1>Where do I play cellphone more offen?</h1>
+        <p>Generally speaking, people will play cellphone at home more often than School. In the following figure, I show the location and cellphnone usage data from Oct. 3 to Oct. 18. In the left figure, it shows the map near the Carnegie Mellon University. Right figure shows the time that screen usage data (2 means phone is locked and 3 means unlocked). </p>
+        <p>First intersting (normal) thing is that the nodes cluster in the school and my home in the right-top corner. There are some points along the fifth avenue because sometimes I walk home. It is noted that there are also dots in the northwest of my home, which is the supermarket. So as a typical Canegie Mellon student, I go to school, home (and supermarket sometime) in most time.
+        <p>Then let's talk about where I play cellphone more often. Based on the aboved observation, we only need to compare the home and school. When you click the bar in the right, the corresponding data will show in the left figure. As you can see, the behavior don't differ a lot from home and school, which means this student might study at home as hard as in the school. Such interesting finding also illustrates the life style of Carnegie Mellon student.
+ <p>In conclusion, data shows that my cellphone usage pattern don't vary by the location.</p>
+ </div>
       
       <div class="page-header">
-	
+  
       </div> <!-- /page-header -->
+      <div class='tableauPlaceholder' id='viz1539909688458' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Aw&#47;Aware-hw&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Aware-hw&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Aw&#47;Aware-hw&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1539909688458');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
     </div> <!-- /container -->
 
-<svg></svg>
 
 <!-- STYLES FOR D3 -->
 <style>
@@ -72,17 +75,17 @@ path {
     shape-rendering: crispEdges;
 }
 
-div.tooltip {	
-    position: absolute;			
-    text-align: center;			
-    width: 60px;					
-    height: 28px;					
-    padding: 2px;				
-    font: 12px sans-serif;		
-    background: lightsteelblue;	
-    border: 0px;		
-    border-radius: 8px;			
-    pointer-events: none;			
+div.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 60px;          
+    height: 28px;         
+    padding: 2px;       
+    font: 12px sans-serif;    
+    background: lightsteelblue; 
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;     
 }
 /* End styles for date/time chart */
 
@@ -102,156 +105,7 @@ div.tooltip {
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/bootstrap.min.js"></script> 
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script>
-    $( document ).ready(function() {
-	
-		/* Start date/time hover graph code
-		*/
-		
-		// Set the dimensions of the canvas / graph
-		var margin = {top: 30, right: 20, bottom: 30, left: 50},
-		    width = 600 - margin.left - margin.right,
-		    height = 270 - margin.top - margin.bottom;
-		
-		// Parse the date / time
-		var parseDate = d3.timeParse("%d-%b-%y");
-		var formatTime = d3.timeFormat("%e %B");
-		
-		// Set the x and y ranges
-		var x = d3.scaleTime().range([0, width]);
-		var y = d3.scaleLinear().range([height, 0]);
-		
-		// Define the axes
-		var xAxis = d3.axisBottom(x).ticks(5);
-		
-		var yAxis = d3.axisLeft(y).ticks(5);
-		
-		// Define the line we're going to draw via our data points
-		var valueline = d3.line()
-		    .x(function(d) { return x(d.date); })
-		    .y(function(d) { return y(d.close); });
-		
-		// Define the div for the tooltip
-		var div = d3.select("body").append("div")	
-		    .attr("class", "tooltip")				
-		    .style("opacity", 0);
-		
-		// Adds the svg canvas
-		var svg = d3.select("body")
-		    .append("svg")
-		        .attr("width", width + margin.left + margin.right)
-		        .attr("height", height + margin.top + margin.bottom)
-		    .append("g")
-		        .attr("transform", 
-		              "translate(" + margin.left + "," + margin.top + ")");
-		
-		// Get the data
-		d3.csv("css/walk.csv", function(error, data) {
-		    data.forEach(function(d) {
-		        d.date = parseDate(d.date);
-		        d.close = +d.close;
-				console.log('d.date: ' + d.date + ', d.close: ' + d.close);
-		    });
-		
-		    // Scale the range of the data
-		    x.domain(d3.extent(data, function(d) { return d.date; }));
-		    y.domain([0, d3.max(data, function(d) { return d.close; })]);
-		
-		    // Add the valueline path.
-		    svg.append("path")
-		        .attr("class", "line")
-		        .attr("d", valueline(data));
-		
-		    // Add the scatterplot
-		    svg.selectAll("dot")	
-		        .data(data)			
-		    .enter().append("circle")								
-		        .attr("r", 5)		
-		        .attr("cx", function(d) { return x(d.date); })		 
-		        .attr("cy", function(d) { return y(d.close); })		
-		        .on("mouseover", function(d) {		
-		            div.transition()		
-		                .duration(200)		
-		                .style("opacity", .9);		
-		            div	.html(formatTime(d.date) + "<br/>"  + d.close)	
-		                .style("left", (d3.event.pageX) + "px")		
-		                .style("top", (d3.event.pageY - 28) + "px");	
-		            })					
-		        .on("mouseout", function(d) {		
-		            div.transition()		
-		                .duration(500)		
-		                .style("opacity", 0);	
-		        });
-		
-		    // Add the X Axis
-		    svg.append("g")
-		        .attr("class", "x axis")
-		        .attr("transform", "translate(0," + height + ")")
-		        .call(xAxis);
-		
-		    // Add the Y Axis
-		    svg.append("g")
-		        .attr("class", "y axis")
-		        .call(yAxis);
-		});
-		//End date/time hover graph
-		
-
-	
-	/*  Code for the bar chart, remove the surrounding comment markers to display.
-		When doing so, be sure to delete this text and comment out the above chart
-		
-		
-		var bar_svg = d3.select("svg").attr("width", 1200).attr("height", 1200),
-		    margin = {top: 20, right: 20, bottom: 30, left: 40},
-		    width = +bar_svg.attr("width") - margin.left - margin.right,
-		    height = +bar_svg.attr("height") - margin.top - margin.bottom;
-	
-		var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-		    y = d3.scaleLinear().rangeRound([height, 0]);
-		
-		var g = bar_svg.append("g")
-		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-		
-		d3.csv("css/sports.csv", function(d) {//d3.tsv("data.tsv", function(d) {
-		  //d.Year = +d.Year;
-		  d.Year = parseInt(d["Average attendance"].replace(',',''));
-		  return d;
-		}, function(error, data) {
-		  if (error) throw error;
-		
-		  x.domain(data.map(function(d) { return d.Tournament; }));
-		  y.domain([0, d3.max(data, function(d) { return d.Year; })]);
-		
-		  //Defines the X axis
-		  g.append("g")
-		      .attr("class", "axis axis--x")
-		      .attr("transform", "translate(0," + height + ")")
-		      .call(d3.axisBottom(x));
-		
-		  //Defines the Y axis
-		  g.append("g")
-		      .attr("class", "axis axis--y")
-		      .call(d3.axisLeft(y).ticks(10, "s"))
-		    .append("text")
-		      .attr("transform", "rotate(-90)")
-		      .attr("y", 6)
-		      .attr("dy", "0.71em")
-		      .attr("text-anchor", "end")
-		      .text("Year");
-		
-		  g.selectAll(".bar")
-		    .data(data)
-		    .enter().append("rect")
-		      .attr("class", "bar")
-		      .attr("x", function(d) { return x(d.Tournament); })
-		      .attr("y", function(d) { return y(d.Year); })
-		      .attr("width", x.bandwidth())
-		      .attr("height", function(d) { return height - y(d.Year); });
-		}); */ 
-		//End bar chart code
-		
-	}); //End document ready			   
+             
 </script>
 </body>
 </html>

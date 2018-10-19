@@ -35,7 +35,7 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
             <li><a href="about">About This Data Set</a></li>
-	    <li  class="active"><a href="quality">Data Quality</a></li>
+      <li  class="active"><a href="quality">Data Quality</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -45,28 +45,26 @@
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
-	<h1>Quality: About This Data Set</h1>
-        <p>Write a brief summary about the quality of the data set here</a></p>
+  <h1>Quality: About This Data Set</h1>
+        <p>Wenting's Location and Cellphone Usage Dataset</a></p>
       </div>
 
     
       <div class="page-header">
-	<h2>Is the data complete?</h2>
-	<p>If not, what is missing and what concerns does it raise?
-	What is your evidence for this?</p>
+  <h2>Is the data complete?</h2>
+  <p>The data match the questions I want to answer, but there are some missing data. Since I aggregated the data by minute, I found out the majority time don't have any data.</p>
       </div>
       
       <div class="page-header">
-	<h2>Is the data coherent?</h2>
-	<p>Does it make sense relative to itself? Does it match your
-	expectations? Are the distributions sensible? What is your
-	evidence for this?</p>
+  <h2>Is the data coherent?</h2>
+  <p>There are some points not in the main road, the reason might be I took the bus to the supermarket and the signal is not stable.</p>
+  <p>The overall distribution is consistent with my life style.</p>
       </div>
 
       <div class="page-header">
-	<h2>Is the data correct?</h2>
-	<p>What aspects of this data can you verify? How did you do so? What did
-	you find?</p>
+  <h2>Is the data correct?</h2>
+  <p>1. I found out the timeframe for screen and location tables can not be perfectly matched. The reason is because aware sample the data based on different frequency by default. To align them, I loose the condition to minute level, using the condition "int([timestamp]/60000) = int([S.timestamp]/60000)". Here, the 60000 is 60 (minute to seconds) * 1000 (second to milliseconds).</p>
+    <p>2. There are some invalid numbers for screen status, I removed all the numbers that are not among 0 to 3.</p>
       </div>
 
     </div> <!-- /container -->
